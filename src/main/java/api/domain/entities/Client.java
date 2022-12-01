@@ -8,6 +8,7 @@
 //@Data
 //@ToString
 //@Entity
+//@Table
 //public class Client{
 //
 //    @Column(name = "cpf")

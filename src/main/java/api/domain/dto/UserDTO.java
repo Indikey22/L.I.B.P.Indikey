@@ -1,6 +1,5 @@
 package api.domain.dto;
 
-import api.domain.entities.AddressModel;
 import api.domain.entities.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,15 +1,15 @@
 package api.service.impl;
 
-import api.domain.dto.AdressDTO;
-import api.domain.entities.AddressModel;
 import api.domain.entities.UserModel;
 import api.repository.UserRepository;
 import api.domain.dto.UserDTO;
 import api.service.UserService;
+import api.service.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,5 +40,12 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> findAll(){
         List<UserModel> list = repository.findAll(); // select * from user_model
         return list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO findById(Integer id){
+        Optional<UserModel> obj = repository.findById(id);
+        UserModel entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        return new UserDTO(entity);
     }
 }
