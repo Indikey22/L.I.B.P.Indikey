@@ -8,4 +8,5 @@ public interface UserService {
     public UserDTO insert(UserDTO dto);
     public List<UserDTO> findAll();
     public UserDTO findById(Integer id);
+    public UserDTO update(Integer id, UserDTO dto);
 }

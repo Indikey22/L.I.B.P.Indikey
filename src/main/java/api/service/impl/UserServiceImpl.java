@@ -4,10 +4,11 @@ import api.domain.entities.UserModel;
 import api.repository.UserRepository;
 import api.domain.dto.UserDTO;
 import api.service.UserService;
-import api.service.exceptions.EntityNotFoundException;
+import api.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,7 +46,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO findById(Integer id){
         Optional<UserModel> obj = repository.findById(id);
-        UserModel entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        UserModel entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new UserDTO(entity);
     }
+
+    @Override
+    public UserDTO update(Integer id, UserDTO dto) {
+        try{
+            UserModel entity = repository.getReferenceById(id);
+            entity.setName(dto.getName());
+            entity.setEmail(dto.getEmail());
+            entity.setBirthDate(dto.getBirthDate());
+            entity.setPassword(dto.getPassword());
+            entity.setCep(dto.getCep());
+            entity.setCity(dto.getCity());
+            entity.setUf(dto.getUf());
+            entity.setStreet(dto.getStreet());
+            entity.setNumber(dto.getNumber());
+
+            entity = repository.save(entity);
+
+            return new UserDTO(entity);
+        }catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
+    }
+
 }

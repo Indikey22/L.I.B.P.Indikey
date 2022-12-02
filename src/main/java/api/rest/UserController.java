@@ -33,4 +33,10 @@ public class UserController {
         UserDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO dto){
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+    }
 }
