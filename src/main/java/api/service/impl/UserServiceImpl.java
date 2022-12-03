@@ -4,8 +4,11 @@ import api.domain.entities.UserModel;
 import api.repository.UserRepository;
 import api.domain.dto.UserDTO;
 import api.service.UserService;
+import api.service.exceptions.DatabaseException;
 import api.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -69,6 +72,19 @@ public class UserServiceImpl implements UserService {
             return new UserDTO(entity);
         }catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
+        }
+    }
+
+    @Override
+    public void delete(Integer id) {
+        try {
+            repository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e){
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
+        catch (DataIntegrityViolationException e){
+            throw new DatabaseException("Integrity violation");
         }
     }
 
