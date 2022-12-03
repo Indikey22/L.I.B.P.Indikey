@@ -6,9 +6,9 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@MappedSuperclass
 @Data
 @ToString
-@Entity
 public class UserModel {
 
     @Id

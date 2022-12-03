@@ -5,10 +5,12 @@
 //import lombok.ToString;
 //
 //import javax.persistence.Entity;
+//import javax.persistence.Table;
 //
 //@Data
 //@ToString
 //@Entity
+//@Table(name = "tb_commerce")
 //public class Commerce extends UserModel{
 //    private String cnpj;
 //    private Score score;
