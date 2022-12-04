@@ -9,12 +9,12 @@ import api.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryProductServiceImpl implements CategoryProductService {
@@ -33,9 +33,9 @@ public class CategoryProductServiceImpl implements CategoryProductService {
     }
 
     @Override
-    public List<CategoryProductDTO> findAll(){
-        List<CategoryProductModel> list = repository.findAll(); // select * from user_model
-        return list.stream().map(x -> new CategoryProductDTO(x)).collect(Collectors.toList());
+    public Page<CategoryProductDTO> findAllPaged(PageRequest pageRequest){
+        Page<CategoryProductModel> list = repository.findAll(pageRequest); // select * from user_model
+        return list.map(x -> new CategoryProductDTO(x));
     }
 
     @Override
