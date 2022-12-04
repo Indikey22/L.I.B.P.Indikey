@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Data
 @ToString
@@ -18,5 +19,21 @@ public class CategoryProductModel {
 
     @Column(name = "name")
     private String name;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant createdAt;
+
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updateAt;
+
+    @PrePersist
+    public void prePersist(){
+        createdAt = Instant.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        updateAt = Instant.now();
+    }
 
 }
