@@ -1,7 +1,10 @@
 package api.service.impl;
 
+import api.domain.dto.CategoryProductDTO;
 import api.domain.dto.ProductDTO;
+import api.domain.entities.CategoryProductModel;
 import api.domain.entities.ProductModel;
+import api.repository.CategoryProductRepository;
 import api.repository.ProductRepository;
 import api.service.ProductService;
 import api.service.exceptions.DatabaseException;
@@ -22,11 +25,13 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private CategoryProductRepository categoryProductRepository;
+
     @Override
     public ProductDTO insert(ProductDTO dto) {
         ProductModel entity = new ProductModel();
-        //entity.setName(dto.getName());
-
+        copyDtoToEntity(dto, entity);
         repository.save(entity);
 
         return new ProductDTO(entity);
@@ -49,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO update(Integer id, ProductDTO dto) {
         try{
             ProductModel entity = repository.getReferenceById(id);
-            //entity.setName(dto.getName());
+            copyDtoToEntity(dto, entity);
 
             entity = repository.save(entity);
 
@@ -69,6 +74,21 @@ public class ProductServiceImpl implements ProductService {
         }
         catch (DataIntegrityViolationException e){
             throw new DatabaseException("Integrity violation");
+        }
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, ProductModel entity) {
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setDescription(dto.getDescription());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setCreatedAt(dto.getCreatedAt());
+        entity.setUpdateAt(dto.getUpdatedAt());
+
+        entity.getCategoryProductModels().clear();
+        for(CategoryProductDTO catDto : dto.getCategories()){
+            CategoryProductModel category = categoryProductRepository.getReferenceById(catDto.getId());
+            entity.getCategoryProductModels().add(category);
         }
     }
 
