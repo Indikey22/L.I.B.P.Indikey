@@ -12,7 +12,7 @@ import java.util.Set;
 @ToString
 @Entity
 @Table(name = "tb_product")
-public class Product {
+public class ProductModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
