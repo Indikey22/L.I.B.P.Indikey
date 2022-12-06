@@ -21,6 +21,7 @@ public class OrderDTO {
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(OrderModel model){
+        this.client = model.getClientModel().getId();
         this.total = model.getTotal();
     }
 }
