@@ -1,8 +1,6 @@
 package api.rest;
 
-import api.domain.dto.CategoryProductDTO;
 import api.domain.dto.ProductDTO;
-import api.service.CategoryProductService;
 import api.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
