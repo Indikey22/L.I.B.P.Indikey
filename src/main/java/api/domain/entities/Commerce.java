@@ -12,7 +12,8 @@
 //@Entity
 //@Table(name = "tb_commerce")
 //public class Commerce extends UserModel{
+//
 //    private String cnpj;
-//    private Score score;
+////    private Score score;
 //    private CategoryCommerce categoryCommerce;
 //}
