@@ -2,7 +2,6 @@ package api.service.impl;
 
 import api.domain.dto.OrderDTO;
 import api.domain.dto.OrderItemDTO;
-import api.domain.dto.ProductDTO;
 import api.domain.entities.*;
 import api.repository.ClientRepository;
 import api.repository.OrderItemRepository;
@@ -12,7 +11,6 @@ import api.service.OrderService;
 import api.service.exceptions.DatabaseException;
 import api.service.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,19 +23,38 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
     private final OrderRepository repository;
 
-    @Autowired
     private final ClientRepository clientRepository;
 
-    @Autowired
     private final ProductRepository productRepository;
 
-    @Autowired
     private final OrderItemRepository orderItemRepository;
 
+//    @Override
+//    @Transactional
+//    public OrderModel insert(OrderDTO dto) {
+//        Integer idClient = dto.getClient();
+//
+//        ClientModel client = clientRepository.findById(idClient)
+//                .orElseThrow(() -> new DatabaseException("Usuário não encontrado!"));
+//
+//        OrderModel order = new OrderModel();
+//        order.setTotal(dto.getTotal());
+//        order.setOrderDate(LocalDate.now());
+//        order.setClientModel(client);
+//
+//        List<OrderItemModel> OrderItems = convertItems(order, dto.getItems());
+//
+//        repository.save(order);
+//
+//        orderItemRepository.saveAll(OrderItems);
+//        order.setItems(OrderItems);
+//
+//        return order;
+//    }
 
+    @Override
     @Transactional
     public OrderDTO insert(OrderDTO dto){
         OrderModel entity = new OrderModel();
@@ -47,18 +64,39 @@ public class OrderServiceImpl implements OrderService {
         return new OrderDTO(entity);
     }
 
-    @Transactional
-    public OrderDTO findById(Integer id){
-        Optional<OrderModel> obj = repository.findById(id);
-        OrderModel entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new OrderDTO(entity, entity.getItems());
-    }
+//    @Transactional
+//    public OrderDTO findById(Integer id){
+//        Optional<OrderModel> obj = repository.findById(id);
+//        OrderModel entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+//        return new OrderDTO(entity, entity.getItems());
+//    }
+
+//    @Transactional
+//    public List<OrderDTO> findAll() {
+//        List<OrderModel> list = repository.findAll();
+//        return list.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
+//    }
+
 
     @Override
-    public List<OrderDTO> findAll() {
-        List<OrderModel> list = repository.findAll();
-        return list.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
+    public Optional<OrderModel> getFullOrder(Integer id) {
+        return repository.findByIdFetchItems(id);
     }
+
+//    @Transactional
+//    public OrderDTO update(Integer id, OrderDTO dto) {
+//        try{
+//            OrderModel entity = repository.getReferenceById(id);
+//            copyDtoToEntity(dto, entity);
+//
+//            entity = repository.save(entity);
+//
+//            return new OrderDTO(entity);
+//        }catch (EntityNotFoundException e) {
+//            throw new ResourceNotFoundException("Id not found " + id);
+//        }
+//    }
+
 
     private void copyDtoToEntity(OrderDTO dto, OrderModel entity) {
         entity.setTotal(dto.getTotal());
@@ -72,6 +110,7 @@ public class OrderServiceImpl implements OrderService {
 
         orderItemRepository.saveAll(OrderItems);
         entity.setItems(OrderItems);
+
     }
 
     private List<OrderItemModel> convertItems(OrderModel model, List<OrderItemDTO> items){

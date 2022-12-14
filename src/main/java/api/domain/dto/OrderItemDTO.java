@@ -12,12 +12,11 @@ import lombok.Setter;
 @Setter
 public class OrderItemDTO {
 
-    private Integer id;
     private Integer product;
     private Integer quantity;
 
     public OrderItemDTO(OrderItemModel model){
-        this.id = model.getId();
+//        this.id = model.getId();
         this.product = model.getProductModel().getId();
         this.quantity = model.getQuantity();
     }

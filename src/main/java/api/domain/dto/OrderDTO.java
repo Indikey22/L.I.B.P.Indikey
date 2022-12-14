@@ -11,14 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class OrderDTO {
     
     private Integer client;
     private BigDecimal total;
-
     private List<OrderItemDTO> items = new ArrayList<>();
 
     public OrderDTO(OrderModel model){
