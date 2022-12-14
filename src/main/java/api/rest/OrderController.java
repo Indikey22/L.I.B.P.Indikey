@@ -3,6 +3,7 @@ package api.rest;
 import api.domain.dto.*;
 import api.domain.entities.OrderItemModel;
 import api.domain.entities.OrderModel;
+import api.domain.entities.enums.OrderStatus;
 import api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,13 @@ public class OrderController {
     public InformationsOrderDTO getById(@PathVariable Integer id){
         return service.getFullOrder(id).map( p ->  toConvert(p)).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado"));
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<UpdateOrderStatusDTO> updateStatus(@PathVariable Integer id, @RequestBody UpdateOrderStatusDTO dto){
+        String newStatus = dto.getNewStatus();
+        service.updateStatus(id, OrderStatus.valueOf(newStatus));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(dto);
     }
 
     private InformationsOrderDTO toConvert(OrderModel model){

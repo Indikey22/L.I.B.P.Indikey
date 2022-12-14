@@ -48,6 +48,15 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByIdFetchItems(id);
     }
 
+    @Override
+    @Transactional
+    public void updateStatus(Integer id, OrderStatus orderStatus) {
+        repository.findById(id).map(order -> {
+            order.setStatus(orderStatus);
+            return repository.save(order);
+        }).orElseThrow(() -> new ResourceNotFoundException("Pedido não encontrado!"));
+    }
+
     private void copyDtoToEntity(OrderDTO dto, OrderModel entity) {
         entity.setTotal(dto.getTotal());
         entity.setOrderDate(LocalDate.now());
