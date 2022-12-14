@@ -1,6 +1,6 @@
 package api.domain.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import api.domain.entities.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -25,7 +25,6 @@ public class OrderModel {
     @Column(name = "id")
     private Integer id;
 
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientModel clientModel;
@@ -36,7 +35,10 @@ public class OrderModel {
     @Column(name = "total", precision = 20, scale = 2)
     private BigDecimal total;
 
-//    @JsonIgnore
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private OrderStatus status;
+
     @OneToMany(mappedBy = "orderModel")
     private List<OrderItemModel> items;
 }

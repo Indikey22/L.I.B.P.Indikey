@@ -23,25 +23,11 @@ public class OrderController {
     @Autowired
     private OrderService service;
 
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Integer insert(@RequestBody OrderDTO dto){
-//        OrderModel order = service.insert(dto);
-//        return order.getId();
-//    }
-
-
     @PostMapping
     public ResponseEntity<OrderDTO> insert(@RequestBody OrderDTO dto){
         dto = service.insert(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
-
-//    @GetMapping
-//    public ResponseEntity<List<OrderDTO>> findAll(){
-//        List<OrderDTO> list = service.findAll();
-//        return ResponseEntity.ok().body(list);
-//    }
 
     @GetMapping(value = "/{id}")
     public InformationsOrderDTO getById(@PathVariable Integer id){
@@ -56,6 +42,7 @@ public class OrderController {
                 .cpf(model.getClientModel().getCpf())
                 .nameClient(model.getClientModel().getName())
                 .total(model.getTotal())
+                .status(model.getStatus().name())
                 .items(toConvert(model.getItems()))
                 .build();
     }
@@ -71,18 +58,5 @@ public class OrderController {
                 .quantity(item.getQuantity())
                 .build()).collect(Collectors.toList());
     }
-
-
-//    @GetMapping(value = "/{id}")
-//    public ResponseEntity<OrderDTO> findById(@PathVariable Integer id){
-//        OrderDTO dto = service.findById(id);
-//        return ResponseEntity.ok().body(dto);
-//    }
-//
-//    @PutMapping(value = "/{id}")
-//    public ResponseEntity<OrderDTO> update(@PathVariable Integer id, @RequestBody OrderDTO dto){
-//        dto = service.update(id, dto);
-//        return ResponseEntity.ok().body(dto);
-//    }
 
 }

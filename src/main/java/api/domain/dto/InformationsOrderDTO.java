@@ -18,6 +18,7 @@ public class InformationsOrderDTO {
     private String cpf;
     private String nameClient;
     private BigDecimal total;
+    private String status;
     private String orderDate;
     private List<InformationItemOrderDTO> items;
 }

@@ -16,7 +16,6 @@ public class OrderItemDTO {
     private Integer quantity;
 
     public OrderItemDTO(OrderItemModel model){
-//        this.id = model.getId();
         this.product = model.getProductModel().getId();
         this.quantity = model.getQuantity();
     }

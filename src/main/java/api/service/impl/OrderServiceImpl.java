@@ -3,6 +3,7 @@ package api.service.impl;
 import api.domain.dto.OrderDTO;
 import api.domain.dto.OrderItemDTO;
 import api.domain.entities.*;
+import api.domain.entities.enums.OrderStatus;
 import api.repository.ClientRepository;
 import api.repository.OrderItemRepository;
 import api.repository.OrderRepository;
@@ -31,28 +32,6 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderItemRepository orderItemRepository;
 
-//    @Override
-//    @Transactional
-//    public OrderModel insert(OrderDTO dto) {
-//        Integer idClient = dto.getClient();
-//
-//        ClientModel client = clientRepository.findById(idClient)
-//                .orElseThrow(() -> new DatabaseException("Usuário não encontrado!"));
-//
-//        OrderModel order = new OrderModel();
-//        order.setTotal(dto.getTotal());
-//        order.setOrderDate(LocalDate.now());
-//        order.setClientModel(client);
-//
-//        List<OrderItemModel> OrderItems = convertItems(order, dto.getItems());
-//
-//        repository.save(order);
-//
-//        orderItemRepository.saveAll(OrderItems);
-//        order.setItems(OrderItems);
-//
-//        return order;
-//    }
 
     @Override
     @Transactional
@@ -64,43 +43,15 @@ public class OrderServiceImpl implements OrderService {
         return new OrderDTO(entity);
     }
 
-//    @Transactional
-//    public OrderDTO findById(Integer id){
-//        Optional<OrderModel> obj = repository.findById(id);
-//        OrderModel entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-//        return new OrderDTO(entity, entity.getItems());
-//    }
-
-//    @Transactional
-//    public List<OrderDTO> findAll() {
-//        List<OrderModel> list = repository.findAll();
-//        return list.stream().map(x -> new OrderDTO(x)).collect(Collectors.toList());
-//    }
-
-
     @Override
     public Optional<OrderModel> getFullOrder(Integer id) {
         return repository.findByIdFetchItems(id);
     }
 
-//    @Transactional
-//    public OrderDTO update(Integer id, OrderDTO dto) {
-//        try{
-//            OrderModel entity = repository.getReferenceById(id);
-//            copyDtoToEntity(dto, entity);
-//
-//            entity = repository.save(entity);
-//
-//            return new OrderDTO(entity);
-//        }catch (EntityNotFoundException e) {
-//            throw new ResourceNotFoundException("Id not found " + id);
-//        }
-//    }
-
-
     private void copyDtoToEntity(OrderDTO dto, OrderModel entity) {
         entity.setTotal(dto.getTotal());
         entity.setOrderDate(LocalDate.now());
+        entity.setStatus(OrderStatus.REALIZED);
 
         ClientModel client = clientRepository.findById(dto.getClient())
                 .orElseThrow(() -> new DatabaseException("Usuário não encontrado!"));
