@@ -1,7 +1,6 @@
 package api.domain.dto;
 
 import api.domain.entities.CommerceModel;
-import api.domain.entities.ScoreModel;
 import api.domain.entities.enums.CategoryCommerce;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,10 +27,10 @@ public class CommerceDTO {
     private String street;
     private String number;
     private String cnpj;
-    private List<ScoreDTO> scores = new ArrayList<>();
+//    private List<ScoreDTO> scores = new ArrayList<>();
     private Enum<CategoryCommerce> categoryCommerceEnum;
 
-    public CommerceDTO(CommerceModel model, Set<ScoreModel> scores) {
+    public CommerceDTO(CommerceModel model) {
         this.id = model.getId();
         this.name = model.getName();
         this.email = model.getEmail();
@@ -43,7 +42,7 @@ public class CommerceDTO {
         this.street = model.getStreet();
         this.number = model.getNumber();
         this.cnpj = model.getCnpj();
-        scores.forEach(sco -> this.scores.add(new ScoreDTO(sco)));
+//        scores.forEach(sco -> this.scores.add(new ScoreDTO(sco)));
         this.categoryCommerceEnum = model.getCategoryCommerce();
     }
 }

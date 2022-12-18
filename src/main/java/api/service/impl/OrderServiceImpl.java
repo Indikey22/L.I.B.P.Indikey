@@ -48,7 +48,6 @@ public class OrderServiceImpl implements OrderService {
         return repository.findByIdFetchItems(id);
     }
 
-    @Override
     @Transactional
     public void updateStatus(Integer id, OrderStatus orderStatus) {
         repository.findById(id).map(order -> {
