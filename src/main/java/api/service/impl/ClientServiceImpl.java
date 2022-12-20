@@ -48,7 +48,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public List<ClientDTO> findAll(){
-        List<ClientModel> list = repository.findAll(); // select * from user_model
+        List<ClientModel> list = repository.findAllProfileActivated(); // select * from user_model
         return list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
     }
 

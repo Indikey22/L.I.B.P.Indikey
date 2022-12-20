@@ -36,7 +36,7 @@ public class CommerceServiceImpl implements CommerceService {
 
     @Transactional
     public List<CommerceDTO> findAll(){
-        List<CommerceModel> list = repository.findAll(); // select * from user_model
+        List<CommerceModel> list = repository.findAllProfileActivated(); // select * from user_model
         return list.stream().map(x -> new CommerceDTO(x)).collect(Collectors.toList());
     }
 
