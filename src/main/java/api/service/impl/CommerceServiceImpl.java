@@ -2,7 +2,7 @@ package api.service.impl;
 
 import api.domain.dto.CommerceDTO;
 import api.domain.entities.CommerceModel;
-import api.domain.entities.enums.CategoryCommerce;
+import api.domain.entities.enums.UserStatus;
 import api.repository.CommerceRepository;
 import api.service.CommerceService;
 import api.service.exceptions.DatabaseException;
@@ -51,19 +51,8 @@ public class CommerceServiceImpl implements CommerceService {
     public CommerceDTO update(Integer id, CommerceDTO dto) {
         try{
             CommerceModel entity = repository.getReferenceById(id);
-            entity.setName(dto.getName());
-            entity.setEmail(dto.getEmail());
-            entity.setBirthDate(dto.getBirthDate());
-            entity.setPassword(dto.getPassword());
-            entity.setCep(dto.getCep());
-            entity.setCity(dto.getCity());
-            entity.setUf(dto.getUf());
-            entity.setStreet(dto.getStreet());
-            entity.setNumber(dto.getNumber());
-            entity.setCnpj(dto.getCnpj());
-
+            copyDtoToEntity(dto, entity);
             validationCnpj(dto.getCnpj());
-
             entity = repository.save(entity);
 
             return new CommerceDTO(entity);
@@ -85,6 +74,14 @@ public class CommerceServiceImpl implements CommerceService {
         }
     }
 
+    @Transactional
+    public void updateStatus(Integer id, UserStatus userStatus) {
+        repository.findById(id).map(user -> {
+            user.setStatus(userStatus);
+            return repository.save(user);
+        }).orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado!"));
+    }
+
     private void copyDtoToEntity(CommerceDTO dto, CommerceModel entity){
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
@@ -96,6 +93,8 @@ public class CommerceServiceImpl implements CommerceService {
         entity.setNumber(dto.getNumber());
         entity.setCep(dto.getCep());
         entity.setCnpj(dto.getCnpj());
+        entity.setCategoryCommerce(dto.getCategory());
+        entity.setStatus(UserStatus.ACTIVATED);
     }
 
     private Boolean validationCnpj(String cnpj) {

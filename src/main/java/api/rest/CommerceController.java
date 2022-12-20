@@ -1,6 +1,8 @@
 package api.rest;
 
 import api.domain.dto.CommerceDTO;
+import api.domain.dto.UpdateUserStatusDTO;
+import api.domain.entities.enums.UserStatus;
 import api.service.CommerceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,5 +46,12 @@ public class CommerceController {
     public ResponseEntity<CommerceDTO> delete(@PathVariable Integer id){
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(value = "/{id}")
+    public ResponseEntity<UpdateUserStatusDTO> updateStatus(@PathVariable Integer id, @RequestBody UpdateUserStatusDTO dto){
+        String newStatus = dto.getNewStatus();
+        service.updateStatus(id, UserStatus.valueOf(newStatus));
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(dto);
     }
 }

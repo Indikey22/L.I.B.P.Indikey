@@ -2,6 +2,7 @@ package api.domain.dto;
 
 import api.domain.entities.CommerceModel;
 import api.domain.entities.enums.CategoryCommerce;
+import api.domain.entities.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,9 @@ public class CommerceDTO {
     private String number;
     private String cnpj;
 //    private List<ScoreDTO> scores = new ArrayList<>();
-    private Enum<CategoryCommerce> categoryCommerceEnum;
+    private CategoryCommerce category;
+
+    private UserStatus status;
 
     public CommerceDTO(CommerceModel model) {
         this.id = model.getId();
@@ -43,6 +46,7 @@ public class CommerceDTO {
         this.number = model.getNumber();
         this.cnpj = model.getCnpj();
 //        scores.forEach(sco -> this.scores.add(new ScoreDTO(sco)));
-        this.categoryCommerceEnum = model.getCategoryCommerce();
+        this.category = model.getCategoryCommerce();
+        this.status = model.getStatus();
     }
 }

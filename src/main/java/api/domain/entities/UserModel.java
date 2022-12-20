@@ -1,9 +1,12 @@
 package api.domain.entities;
 
+import api.domain.entities.enums.UserStatus;
 import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
 @MappedSuperclass
@@ -16,7 +19,8 @@ public class UserModel {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
+    @NotBlank(message = "Nome não pode ser nullo ou vazio!")
     private String name;
 
     @Column(name = "email")
@@ -42,5 +46,9 @@ public class UserModel {
 
     @Column(name = "number")
     private String number;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private UserStatus status;
 
 }
