@@ -1,6 +1,7 @@
 package api.domain.dto;
 
 import api.domain.entities.ClientModel;
+import api.domain.entities.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,8 @@ public class ClientDTO {
     private String number;
     private String cpf;
 
+    private UserStatus status;
+
     public ClientDTO(ClientModel model){
         this.id = model.getId();
         this.name = model.getName();
@@ -36,5 +39,6 @@ public class ClientDTO {
         this.street = model.getStreet();
         this.number = model.getNumber();
         this.cpf = model.getCpf();
+        this.status = model.getStatus();
     }
 }

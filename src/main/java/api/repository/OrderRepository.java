@@ -1,7 +1,5 @@
 package api.repository;
 
-
-import api.domain.entities.ClientModel;
 import api.domain.entities.OrderModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
