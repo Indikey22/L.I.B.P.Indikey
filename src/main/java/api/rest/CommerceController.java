@@ -30,6 +30,12 @@ public class CommerceController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/activated")
+    public ResponseEntity<List<CommerceDTO>> ProfileActivated(){
+        List<CommerceDTO> list = service.findAllProfileActivated();
+        return ResponseEntity.ok().body(list);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<CommerceDTO> findById(@PathVariable Integer id){
         CommerceDTO dto = service.findById(id);

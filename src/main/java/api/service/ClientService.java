@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ClientService {
     public ClientDTO insert(ClientDTO dto);
+    List<ClientDTO> findAllProfileActivated();
     public List<ClientDTO> findAll();
     public ClientDTO findById(Integer id);
     public ClientDTO update(Integer id, ClientDTO dto);

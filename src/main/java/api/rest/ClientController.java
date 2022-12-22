@@ -31,6 +31,12 @@ public class ClientController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/activated")
+    public ResponseEntity<List<ClientDTO>> ProfileActivated(){
+        List<ClientDTO> list = service.findAllProfileActivated();
+        return ResponseEntity.ok().body(list);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClientDTO> findById(@PathVariable Integer id){
         ClientDTO dto = service.findById(id);

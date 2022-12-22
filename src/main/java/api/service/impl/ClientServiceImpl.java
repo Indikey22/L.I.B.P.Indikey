@@ -24,7 +24,7 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository repository;
 
-    @Override
+    @Transactional
     public ClientDTO insert(ClientDTO dto) {
         ClientModel entity = new ClientModel();
         entity.setName(dto.getName());
@@ -46,20 +46,27 @@ public class ClientServiceImpl implements ClientService {
         return new ClientDTO(entity);
     }
 
-    @Override
+
+    @Transactional
     public List<ClientDTO> findAll(){
-        List<ClientModel> list = repository.findAllProfileActivated(); // select * from user_model
+        List<ClientModel> list = repository.findAll();
         return list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
     }
 
-    @Override
+    @Transactional
+    public List<ClientDTO> findAllProfileActivated() {
+        List<ClientModel> list = repository.findAllProfileActivated();
+        return list.stream().map(x -> new ClientDTO(x)).collect(Collectors.toList());
+    }
+
+    @Transactional
     public ClientDTO findById(Integer id){
         Optional<ClientModel> obj = repository.findById(id);
         ClientModel entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new ClientDTO(entity);
     }
 
-    @Override
+    @Transactional
     public ClientDTO update(Integer id, ClientDTO dto) {
         try{
             ClientModel entity = repository.getReferenceById(id);
